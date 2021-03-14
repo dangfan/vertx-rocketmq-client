@@ -1,0 +1,44 @@
+plugins {
+  id "org.jetbrains.kotlin.jvm" version "1.4.21"
+  id "maven-publish"
+}
+
+group "com.github.dangfan"
+version "0.1"
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  vertxVersion = "4.0.3"
+}
+
+dependencies {
+  api "org.apache.rocketmq:rocketmq-client:4.8.0"
+
+  implementation "io.vertx:vertx-lang-kotlin:$vertxVersion"
+  implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertxVersion"
+  implementation "io.github.microutils:kotlin-logging:2.0.6"
+  implementation "ch.qos.logback:logback-classic:1.2.3"
+}
+
+compileKotlin {
+  kotlinOptions.jvmTarget = "11"
+}
+
+compileTestKotlin {
+  kotlinOptions.jvmTarget = "11"
+}
+
+test {
+  useJUnitPlatform()
+  testLogging {
+    events "PASSED", "FAILED", "SKIPPED"
+  }
+}
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allSource
+  archiveClassifier = "sources"
+}
